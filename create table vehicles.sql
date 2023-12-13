@@ -1,7 +1,7 @@
 drop table if exists vehicles
 go
 create table vehicles
-					(IdVehicle smallint primary key,
+					(IdVehicle smallint primary key not null,
 					 VehicleType varchar(100) not null,
 					 VehicleStatus varchar(50) null,
 					 CurrentLocation varchar(50) null,
