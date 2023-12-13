@@ -1,7 +1,7 @@
 drop table if exists customers
 go
 create table customers
-					(IdCustomer smallint primary key,
+					(IdCustomer smallint primary key not null,
 					 Name varchar(100) not null,
 					 OfficeAdress varchar(50) not null,
 					 EmailAdress varchar(50) null,
