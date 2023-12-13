@@ -1,7 +1,7 @@
 drop table if exists drivers
 go
 create table drivers
-					(IdDriver tinyint primary key,
+					(IdDriver tinyint primary key not null,
 					 FirstName varchar(100) not null,
 					 LastName varchar(50) not null,
 					 Adress varchar(50) null,
