@@ -5,9 +5,13 @@ create table route
 				RouteName varchar(50) null,
 				RouteTime tinyint null)
 
-insert into route(IdRoute)
-SELECT TOP 20 ROW_NUMBER() OVER (ORDER BY (SELECT NULL))
-FROM sys.objects
+DECLARE @Counter INT = 1
+WHILE @Counter <= 500
+BEGIN
+    INSERT INTO route(IdRoute,RouteName,RouteTime)
+    VALUES (@Counter,null,null);
+    SET @Counter = @Counter + 1;
+END
 
 --with CTE as (SELECT
 --    t1.OfficeAdress + ' ' + t2.OfficeAdress AS CombinedValues
