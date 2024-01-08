@@ -1,33 +1,30 @@
 drop table if exists route
 go
 create table route
-				(IdRoute smallint primary key not null,
+				(IdRoute int primary key not null,
 				RouteName varchar(50) null,
-				RouteTime tinyint null)
+				RouteTime tinyint null,
+				RouteDistance tinyint null)
 
-
--- inserare date in coloana de ID	
 DECLARE @Counter INT = 1
-WHILE @Counter <= 500
+WHILE @Counter <= 8000
 BEGIN
-    INSERT INTO route(IdRoute,RouteName,RouteTime)
-    VALUES (@Counter,null,null);
+    INSERT INTO route(IdRoute,RouteName,RouteTime,RouteDistance)
+    VALUES (@Counter,null,null,null);
     SET @Counter = @Counter + 1;
 END
 
---am adus orasele din definirea adresei clientilor, si am creat ruta: combiantie de 2 orase	
 with CTE1 as 
-	(SELECT distinct
-	t1.OfficeAdress + ' ' + t2.OfficeAdress AS CombinedValues
-	FROM
-    customers t1
-JOIN
-    customers t2 ON t1.OfficeAdress <> t2.OfficeAdress),
-CTE2 as (select 
-CombinedValues,
-ROW_NUMBER() OVER (ORDER BY CTE1.CombinedValues) AS Id
-from CTE1)
+		(select 
+			c1.CityName+' '+c2.cityName as routeName
+		from city c1
+		cross join city c2
+		where c1.CityName<>c2.CityName),
+	CTE2 as (select 
+			routeName,
+			ROW_NUMBER() OVER (ORDER BY CTE1.routeName) AS Id
+		from CTE1)
 UPDATE Route
-SET RouteName = C.CombinedValues
+SET RouteName = C.routeName
 FROM Route r
-JOIN CTE2 C ON r.IdRoute = c.ID 
+JOIN CTE2 C ON r.IdRoute = c.ID
