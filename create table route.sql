@@ -7,7 +7,7 @@ create table route
 				RouteDistance tinyint null)
 
 DECLARE @Counter INT = 1
-WHILE @Counter <= 8000
+WHILE @Counter <= 4000
 BEGIN
     INSERT INTO route(IdRoute,RouteName,RouteTime,RouteDistance)
     VALUES (@Counter,null,null,null);
@@ -19,7 +19,7 @@ with CTE1 as
 			c1.CityName+' '+c2.cityName as routeName
 		from city c1
 		cross join city c2
-		where c1.CityName<>c2.CityName),
+		where c1.IdCity<c2.IdCity),
 	CTE2 as (select 
 			routeName,
 			ROW_NUMBER() OVER (ORDER BY CTE1.routeName) AS Id
@@ -27,4 +27,4 @@ with CTE1 as
 UPDATE Route
 SET RouteName = C.routeName
 FROM Route r
-JOIN CTE2 C ON r.IdRoute = c.ID
+JOIN CTE2 C ON r.IdRoute = c.ID 
