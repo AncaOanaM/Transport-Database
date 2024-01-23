@@ -7,7 +7,7 @@ create table shipments
 					 IdDriver tinyint references drivers(IdDriver) not null,
 					 IdOrder smallint references orders(IdOrder) not null,
 					 StartTime datetime not null,
-					 EndTime datetime not null,
+					 EndTime datetime null,
 					 ShipmentStatus varchar(50) null,
 					 TravelCost int null,
 					 DistanceTraveled smallint null,
