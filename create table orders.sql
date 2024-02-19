@@ -1,22 +1,37 @@
+use shipment
+go
+
 drop table if exists orders
 go
 
 create table orders
 					(Idorder smallint primary key not null,
 					 IdCustomer smallint references customers(IdCustomer) not null,
+					 IdRoute int references route(IdRoute) not null,
 					 OrderDate date not null,
-					 StartLocation varchar(50) not null,
-					 ShipmentDate datetime not null,
-					 EndLocation varchar(50) not null,
-					 EstimatedDeliveryTime datetime not null,
-					 OrderStatus varchar(20) null)
+					 OrderStatus varchar(20) null,
+					 StartLocation int references city(idcity) null)
 go
-insert into orders(Idorder,IdCustomer,OrderDate,StartLocation,ShipmentDate,EndLocation,EstimatedDeliveryTime) values 
-(1,5,'2023-11-30','Bistrita','2023-12-01 10:00:00','Bucuresti','2023-12-01 18:00:00'),
-(2,3,'2023-11-25','Sofia','2023-11-27 08:00:00','Londra','2023-11-28 19:00:00'),
-(3,1,'2023-11-20','Brasov','2023-11-25 14:00:00','Iasi','2023-11-25 19:30:00'),
-(4,2,'2023-11-30','Brasov','2023-12-01 15:00:00','Bucuresti','2023-12-01 18:00:00'),
-(5,15,'2023-11-28','Paulesti','2023-11-29 08:00:00','Leuven','2023-11-30 15:00:00'),
-(6,17,'2023-11-30','Cluj-Napoca','2023-12-01 09:00:01','Bucuresti','2023-12-01 18:00:00'),
-(7,6,'2023-11-30','Buzau','2023-12-01 15:00:01','Bucuresti','2023-12-01 16:30:00')
+insert into orders(Idorder,IdCustomer,IdRoute,OrderDate,StartLocation) values 
+(1,5,353,'2023-11-30',5),
+(2,4,2972,'2023-11-25',51),
+(3,1,841,'2023-11-20',11),
+(4,2,830,'2023-11-30',11),
+(5,10,3049,'2023-11-28',49),
+(6,13,1203,'2023-11-30',16),
+(7,6,1274,'2023-11-30',19),
+(8,4,388,'2024-01-03',5),
+(9,10,3087,'2024-01-03',49),
+(10,2,863,'2024-01-03',11),
+(11,3,3783,'2024-01-03',78),
+(12,8,3087,'2024-01-04',43),
+(13,10,863,'2024-01-05',49),
+(14,11,1262,'2024-01-05',16),
+(15,10,3783,'2024-01-05',78),
+(16,10,3087,'2024-01-05',43),
+(17,11,1472,'2024-01-05',78),
+(18,6,1443,'2023-12-20',19),
+(19,9,3049,'2024-01-05',49),
+(20,6,3049,'2024-01-06',50),
+(21,6,1443,'2024-01-05',49)
 
