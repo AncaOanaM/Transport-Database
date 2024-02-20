@@ -568,4 +568,5 @@ values
 (562,6,833,'2023-12-23',19),
 (563,9,3049,'2023-12-23',50)
 
-
+update orders
+set OrderStatus='Pending'
