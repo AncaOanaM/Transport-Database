@@ -1,3 +1,6 @@
+use shipment
+go
+
 drop table if exists vehicles
 go
 create table vehicles
@@ -21,4 +24,18 @@ insert into vehicles(IdVehicle,VehicleType,PurchaseDate,Model,VehicleNumber,Capa
 (7,'Truck','2021.12.05','Ford F-150','BV07SHI',12.8),
 (8,'Truck','2020.08.01','Nissan Frontier','BV08SHI',13.0),
 (9,'Truck','2021.08.01','Nissan Frontier','BV09SHI',13.0),
-(10,'Truck','2020.08.01','Nissan Frontier','BV10SHI',13.0)
+(10,'Truck','2019.08.01','Nissan Frontier','BV10SHI',13.0),
+(11,'Truck','2020.08.01','Nissan Frontier','BV11SHI',13.0),
+(12,'Truck','2020.08.01','Ford F-150','BV12SHI',12.8),
+(13,'Truck','2020.08.01','Nissan Frontier','BV13SHI',13.0),
+(14,'Truck','2022.02.01','Nissan Frontier','BV14SHI',13.0),
+(15,'Truck','2020.08.01','Ford F-150','BV15SHI',12.8),
+(16,'Truck','2021.12.05','Nissan Frontier','BV16SHI',13.0),
+(17,'Truck','2022.02.01','Nissan Frontier','BV17SHI',13.0),
+(18,'Truck','2022.02.01','Ford F-150','BV18SHI',12.8)
+
+update vehicles
+set CurrentLocation=11 where CurrentLocation is null
+
+update vehicles
+set VehicleStatus='Available' where VehicleStatus is null 
