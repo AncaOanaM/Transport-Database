@@ -5,7 +5,7 @@ drop table if exists shipments
 go
 
 create table shipments
-					(Idshipment smallint primary key not null,
+					(Idshipment smallint primary key identity not null,
 					 Idvehicle smallint references vehicles(IdVehicle) not null,
 					 IdOrder smallint references orders(IdOrder) not null,
 					 StartTime datetime not null,
