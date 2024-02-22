@@ -28,3 +28,7 @@ UPDATE Route
 SET RouteName = C.routeName
 FROM Route r
 JOIN CTE2 C ON r.IdRoute = c.ID 
+
+
+alter table route
+alter column RouteTime datetime
