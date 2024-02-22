@@ -15,3 +15,6 @@ create table shipments
 					 DistanceTraveled smallint null,
 					 ReasonForDelay varchar(200) null)
 go
+
+alter table shipments
+add constraint UQ_idOrder UNIQUE (idOrder)
