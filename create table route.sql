@@ -3,7 +3,7 @@ go
 create table route
 				(IdRoute int primary key not null,
 				RouteName varchar(50) null,
-				RouteTime time(0) null,
+				RouteTime time null,
 				RouteDistance tinyint null)
 
 DECLARE @Counter INT = 1
