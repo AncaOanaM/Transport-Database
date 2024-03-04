@@ -9,7 +9,7 @@ OrderStatus='Pending' and
 OrderDate='2023-12-23'
 
 select * from orders
-where OrderDate='2023-01-28' and OrderStatus='Pending'
+where OrderDate='2023-12-23' and OrderStatus='Pending'
 
 select * from vehicles
 
@@ -24,9 +24,9 @@ select distinct
 			case
 				when (r.StartLocation=o.StartLocation and r.EndLocation=v.CurrentLocation)
 				or (r.StartLocation=v.CurrentLocation and r.EndLocation=o.StartLocation)
-										then r.RouteDistance
+						then r.RouteDistance
 				when o.StartLocation=v.CurrentLocation 
-										then 0
+						then 0
 				end 
 			as RouteDistance 
 from orders o
@@ -103,7 +103,7 @@ select * from shipments
 update vehicles
 		set CurrentLocation=
 			case when o.StartLocation=r.StartLocation then r.EndLocation
-				 when o.StartLocation=r.EndLocation then r.StartLocation
+			     when o.StartLocation=r.EndLocation then r.StartLocation
 			end 
 		from orders o
 		join route r
