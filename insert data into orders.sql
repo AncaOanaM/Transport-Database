@@ -667,4 +667,19 @@ set IdRoute=857 where Idorder=28
 update orders
 set StartLocation=19 where Idorder=258
 
+update orders
+set StartLocation=16 where Idorder=365
+
+update orders
+set OrderDate='2023-10-13'  where Idorder=487
+
+delete from orders
+where OrderDate='2023-12-15'
+
+update orders
+set StartLocation=16 where Idorder=568
+
+update orders
+set StartLocation=5 where Idorder=591
+
 
