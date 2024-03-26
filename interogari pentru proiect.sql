@@ -238,19 +238,6 @@ from
 where dt.Extratime=0
 group by dt.Luna
 
---rezultat
-41	1
-40	2
-56	3
-45	4
-29	5
-28	6
-14	7
-51	8
-36	9
-59	10
-43	11
-69	12
 
 select
 	count(dt.Idshipment) NmrShipmperMonth,
@@ -263,15 +250,3 @@ from
 where dt.Extratime<>0
 group by dt.Luna
 
---rezultat
-13	1
-14	2
-16	3
-9	4
-7	5
-8	6
-4	7
-21	8
-13	10
-14	11
-21	12
