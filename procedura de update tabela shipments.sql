@@ -169,6 +169,8 @@ join shipments s
 
 
 --update travel cost
+
+1.	
 update shipments
 set TravelCost=
 	case when s.DistanceTraveled-r.RouteDistance>0 and year(v.PurchaseDate)=2018 then r.FuelEstimated*7.5*1.25*(1+(s.DistanceTraveled-r.RouteDistance)/r.RouteDistance)
@@ -189,4 +191,14 @@ join route r
 join vehicles v
 	on v.IdVehicle=s.Idvehicle
 
-
+	
+2.
+update shipments
+set TravelCost=
+	case when o.idroute=3830 then s.travelcost*1.3
+		 when o.idroute=3077 then s.travelcost*1.25
+		 when o.idroute=830 then s.travelcost*1.35
+	end
+from shipments s
+	join orders o on o.Idorder=s.IdOrder
+	join route r on r.IdRoute=o.IdRoute
