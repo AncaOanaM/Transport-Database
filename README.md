@@ -4,4 +4,4 @@
 
 This project uses SQL to analyze the efficiency of the transport activity. 
 It's goal is to determine those processes that needs amendments.
-The results of the SQL queries can be found in the analysis.sql file.
+The results of the SQL queries can be found in the [https://github.com/AncaOanaM/Shipment-Database/blob/main/Analysis.sql] file.
