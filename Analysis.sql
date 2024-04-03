@@ -24,70 +24,111 @@ from TheMostUsedRoutes t
 order by t.NmbofShipments desc
 
 # startlocation, endlocation, NmbofShipments  
-Brasov		Bucharest	66
-Bucharest	Cluj-Napoca	59
-Belgrade	Madrid		42
-Madrid		Timisoara	39
-Belgrade	Bucharest	38
+Brasov			Bucharest		66
+Bucharest		Cluj-Napoca		59
+Belgrade		Madrid			42
+Madrid			Timisoara		39
+Belgrade		Bucharest		38
 
---2. 	The average time taken to complete deliveries for each route
+
+--2. 	The average time taken to complete deliveries for each route; list top 5
 
 create or alter view ShipmentDeliveyTime
 as
 select
 	o.IdRoute,
-	(convert(time,s.EndTime-s.StartTime)) Durata
+	(convert(time,s.EndTime-s.StartTime)) Durata,
+	o.
 from shipments s
-join orders o
-	on o.Idorder=s.IdOrder
+join orders o on o.Idorder=s.IdOrder
 
 select * from ShipmentDeliveyTime
 
 create or alter view AverageDeliveryTime
 as
-SELECT
-IdRoute,
-NmbOfDeliveryPerRoute,
-CONVERT(TIME, DATEADD(SECOND, TotalSecond/NmbOfDeliveryPerRoute,0)) AverageSeconds
-
-FROM 
-	(select
-		IdRoute,
-		count(*) NmbOfDeliveryPerRoute,
-		SUM(DATEPART(HOUR, Durata) * 3600 + DATEPART(MINUTE, Durata) * 60 + DATEPART(SECOND, Durata)) as TotalSecond
+	SELECT
+	IdRoute,
+	NmbOfDeliveryPerRoute,
+	CONVERT(TIME, DATEADD(SECOND, TotalSecond/NmbOfDeliveryPerRoute,0)) AverageTime
+	FROM 
+		(select
+			IdRoute,
+			count(*) NmbOfDeliveryPerRoute,
+			SUM(DATEPART(HOUR, Durata) * 3600 + DATEPART(MINUTE, Durata) * 60 + DATEPART(SECOND, Durata)) as TotalSecond
 	from ShipmentDeliveyTime
 	group by IdRoute)
 	as TotalSecondsPerRoute
 
-select * from AverageDeliveryTime
+select top 5
+	c1.cityname StartLocation,
+	c2.cityname Endlocation,
+	NmbOfDeliveryPerRoute,
+	AverageTime
+from AverageDeliveryTime adt
+join route r on r.idroute=adt.idroute
+join city c1 on c1.idcity=r.StartLocation
+join city c2 on c2.idcity=r.Endlocation
+order by AverageTime desc
+
+# StartLocation	Endlocation NmbOfDeliveryPerRoute	AverageSeconds
+Bucharest		Manchester	17						23:56:00.0000000
+Belgrade		Manchester	5						23:53:00.0000000
+Bucharest		Lille	16							23:47:00.0000000
+Belgrade		Marseille							27	23:44:00.0000000
+Timișoara		Lille	3							23:40:00.0000000
 
 
---3. The total distance traveled for each route
+--3. The top 5 routes descending by average distance traveled 
 
-select
-o.IdRoute,
-sum(s.DistanceTraveled) TotalDistance
-from shipments s
-join orders o
-	on o.Idorder=s.IdOrder
-group by o.IdRoute
+create or alter view AvgDistancePerRoute
+as
+	select
+	o.IdRoute,
+	avg(s.DistanceTraveled) AvgDistance
+	from shipments s
+	join orders o on o.Idorder=s.IdOrder
+	group by o.IdRoute
+
+select * from AvgDistancePerRoute	
+
+select top 5
+c1.CityName StartLocation,
+c2.CityName EndLocation,
+adpr.AvgDistance
+from AvgDistancePerRoute adpr
+join route r on r.IdRoute=adpr.IdRoute
+join city c1 on c1.IdCity=r.StartLocation
+join city c2 on c2.IdCity=r.EndLocation
+order by adpr.AvgDistance desc 
+
+# StartLocation EndLocation AvgDistance
+Marseille		Timișoara	1800
+Madrid			Timișoara	1494
+Bucharest		Lille		1300
+Bucharest		Manchester	1300
+Timișoara		Lille		1300
 
 
---4. Shipments with suplementary kilometers
+--4. top 5 of shipments with extra kilometers
 
 select distinct
-	r.IdRoute,
-	s.DistanceTraveled,
-	r.RouteDistance,
-	s.DistanceTraveled-r.RouteDistance ExtraDistance,
-	s.Idshipment,
-	o.Idorder
+	c1.CityName StartLocation,
+	c2.CityName EndLocation,
+	s.DistanceTraveled-r.RouteDistance ExtraKilometers
 from shipments s
-	join orders o
-		on o.Idorder=s.IdOrder
-	join route r
-		on r.IdRoute=o.IdRoute
+	join orders o on o.Idorder=s.IdOrder
+	join route r on r.IdRoute=o.IdRoute
+	join city c1 on c1.IdCity=r.StartLocation
+	join city c2 on c2.IdCity=r.EndLocation
 where s.DistanceTraveled-r.RouteDistance<>0
+
+# StartLocation EndLocation ExtraKilometers
+	Brasov	Bucharest			30
+	Brasov	Bucharest			50
+	Madrid	Lille				100
+	Madrid	Lille				120
+	Madrid	Timișoara			80
+	Madrid	Timișoara			100
 
 --5. routes with delays
 
@@ -106,10 +147,9 @@ from shipments s
 
 
 select distinct
-	dt.IdRoute,
-	CONVERT(TIME, DATEADD(SECOND, Extratime,0)) Extratime,
 	c1.CityName StartLocation,
-	c2.CityName EndLocation
+	c2.CityName EndLocation,
+	CONVERT(TIME, DATEADD(SECOND, Extratime,0)) Extratime
 from
 	(select
 	IdRoute,Idorder,Idshipment,
@@ -120,6 +160,15 @@ join city c1 on c1.IdCity=r.StartLocation
 join city c2 on c2.IdCity=r.EndLocation
 where Extratime<>0
 order by Extratime desc
+
+# StartLocation EndLocation ExtraTime
+	Madrid		Timișoara	04:21:00.0000000
+	Madrid		Timișoara	03:21:00.0000000
+	Madrid		Lille	02:05:00.0000000
+	Madrid		Lille	01:55:00.0000000
+	Belgrade	Bucharest	00:45:00.0000000
+	Brasov		Bucharest	00:45:00.0000000
+	Brasov		Bucharest	00:25:00.0000000
 
 
 --6. average costs by route
