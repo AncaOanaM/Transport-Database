@@ -23,7 +23,7 @@ from TheMostUsedRoutes t
 	join city c2 on c2.IdCity=r.EndLocation
 order by t.NmbofShipments desc
 
-# startlocation, endlocation, NmbofShipments  
+# startlocation, endlocation, 		NmbofShipments  
 Brasov			Bucharest		66
 Bucharest		Cluj-Napoca		59
 Belgrade		Madrid			42
@@ -71,11 +71,11 @@ join city c2 on c2.idcity=r.Endlocation
 order by AverageTime desc
 
 # StartLocation	Endlocation NmbOfDeliveryPerRoute	AverageSeconds
-Bucharest		Manchester	17						23:56:00.0000000
-Belgrade		Manchester	5						23:53:00.0000000
-Bucharest		Lille	16							23:47:00.0000000
-Belgrade		Marseille							27	23:44:00.0000000
-Timișoara		Lille	3							23:40:00.0000000
+Bucharest		Manchester	17		23:56:00.0000000
+Belgrade		Manchester	5		23:53:00.0000000
+Bucharest		Lille		16		23:47:00.0000000
+Belgrade		Marseille	27		23:44:00.0000000
+Timișoara		Lille		3		23:40:00.0000000
 
 
 --3. The top 5 routes descending by average distance traveled 
@@ -123,12 +123,12 @@ from shipments s
 where s.DistanceTraveled-r.RouteDistance<>0
 
 # StartLocation EndLocation ExtraKilometers
-	Brasov	Bucharest			30
-	Brasov	Bucharest			50
-	Madrid	Lille				100
-	Madrid	Lille				120
-	Madrid	Timișoara			80
-	Madrid	Timișoara			100
+	Brasov	Bucharest	30
+	Brasov	Bucharest	50
+	Madrid	Lille		100
+	Madrid	Lille		120
+	Madrid	Timișoara	80
+	Madrid	Timișoara	100
 
 --5. routes with delays
 
@@ -164,8 +164,8 @@ order by Extratime desc
 # StartLocation EndLocation ExtraTime
 	Madrid		Timișoara	04:21:00.0000000
 	Madrid		Timișoara	03:21:00.0000000
-	Madrid		Lille	02:05:00.0000000
-	Madrid		Lille	01:55:00.0000000
+	Madrid		Lille		02:05:00.0000000
+	Madrid		Lille		01:55:00.0000000
 	Belgrade	Bucharest	00:45:00.0000000
 	Brasov		Bucharest	00:45:00.0000000
 	Brasov		Bucharest	00:25:00.0000000
