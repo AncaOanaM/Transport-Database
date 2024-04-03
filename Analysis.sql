@@ -171,7 +171,7 @@ order by Extratime desc
 	Brasov		Bucharest	00:25:00.0000000
 
 
---6. average costs by route
+--6. top 5 average costs by route (descending)
 
 create or alter view AvgCost
 as
@@ -182,12 +182,26 @@ as
 	join orders o on o.Idorder=s.IdOrder
 	group by o.IdRoute
 
-select
-*
-from AvgCost
+select top 5
+	c1.CityName StartLocation,
+	c2.CityName EndLocation,
+	AverageCost AvgCost
+from AvgCost ac
+join route r on r.IdRoute=ac.IdRoute
+join city c1 on c1.IdCity=r.StartLocation
+join city c2 on c2.IdCity=r.EndLocation
+order by AvgCost
+
+# StartLocation EndLocation AvgCost
+	Brasov		Bucharest	195
+	Brasov		Cluj-Napoca	260
+	Cluj-Napoca	Timișoara	390
+	Bucharest	Timișoara	390
+	Bucharest	Cluj-Napoca	455
 
 
 --7. top 5 routes with exceeding average delivery cost
+	
 select distinct top 5
 	o.Idorder,
 	s.TravelCost-ac.AverageCost as ExceedingAvgCost,
