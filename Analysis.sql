@@ -23,11 +23,11 @@ from TheMostUsedRoutes t
 	join city c2 on c2.IdCity=r.EndLocation
 order by t.NmbofShipments desc
 
-# startlocation,endlocation,NmbofShipments  
-Brasov	Bucharest	66
+# startlocation, endlocation, NmbofShipments  
+Brasov		Bucharest	66
 Bucharest	Cluj-Napoca	59
 Belgrade	Madrid	42
-Madrid	Timi?oara	39
+Madrid		Timisoara	39
 Belgrade	Bucharest	38
 
 --2. 	The average time taken to complete deliveries for each route
