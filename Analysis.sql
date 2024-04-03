@@ -218,29 +218,14 @@ where s.TravelCost>ac.AverageCost
 order by ExceedingAvgCost desc
 
 # StartLocation EndLocation Idorder ExceedingAvgCost
-	Madrid		Timișoara	603			50
-	Madrid		Timișoara	357			49
-	Madrid		Timișoara	363			49
-	Madrid		Timișoara	378			49
-	Madrid		Timișoara	5			47
+Madrid		Timișoara	603	50
+Madrid		Timișoara	357	49
+Madrid		Timișoara	363	49
+Madrid		Timișoara	378	49
+Madrid		Timișoara	5	47
 	
 
-	
---8. ponderea livrarilor cu depasiri de timp in totalul livrarilor
-
-select
-	dt.IdRoute,
-	dt.Idorder,
-	dt.Idshipment,
-	CONVERT(TIME, DATEADD(SECOND, Extratime,0)) ExtraShipmentTime
-from
-	(select
-	IdRoute,Idorder,Idshipment,
-	datediff(second,RouteTime,TimeTraveled) Extratime
-	from TimeTraveled) as dt
-where Extratime=0
-
---numarul de livrari cu intarziere pe luna
+--8. Number of shipments per month
 
 create or alter view TimeTraveled
 as
@@ -252,64 +237,86 @@ select distinct
 	s.EndTime,
 	o.Idorder
 from shipments s
-	join orders o
-		on o.Idorder=s.IdOrder
-	join route r
-		on r.IdRoute=o.IdRoute
+	join orders o on o.Idorder=s.IdOrder
+	join route r on r.IdRoute=o.IdRoute
 
-select * from TimeTraveled
 
 select
-month(tt.EndTime),
-count(tt.Idshipment)
+datename(month,tt.EndTime) Month,
+count(tt.Idshipment) NmbOfShipmentsPerMonth
 from TimeTraveled tt
-group by month(tt.EndTime)
+group by datename(month,tt.EndTime)
+order by NmbOfShipmentsPerMonth desc
+
+# Month NmbOfShipmentsPerMonth
+December	85
+October		74
+March		71
+August		64
+November	60
+April		58
+January		56
+February	50
+May		38
+June		37
+September	37
+July		21
+
+--9. number of shipments per months, with delay
 
 select
 	count(dt.Idshipment) NmrShipmperMonth,
-	dt.Luna 
+	dt.Month 
 from
 	(select
-	tt.Idshipment,month(tt.EndTime) Luna,
-	datediff(second,RouteTime,TimeTraveled) Extratime
-	from TimeTraveled tt) as dt
-where dt.Extratime=0
-group by dt.Luna
-
---rezultat
-41	1
-40	2
-56	3
-45	4
-29	5
-28	6
-14	7
-51	8
-36	9
-59	10
-43	11
-69	12
-
-select
-	count(dt.Idshipment) NmrShipmperMonth,
-	dt.Luna 
-from
-	(select
-	tt.Idshipment,month(tt.EndTime) Luna,
+	tt.Idshipment,datename(month,tt.EndTime) Month,
 	datediff(second,RouteTime,TimeTraveled) Extratime
 	from TimeTraveled tt) as dt
 where dt.Extratime<>0
-group by dt.Luna
+group by dt.Month
+order by NmrShipmperMonth desc
 
---rezultat
-13	1
-14	2
-16	3
-9	4
-7	5
-8	6
-4	7
-21	8
-13	10
-14	11
-21	12
+# NmrShipmperMonth	Month
+17			November
+16			December
+15			January
+15			March
+15			October
+13			April
+13			August
+10			February
+9			May
+9			June
+7			July
+1			September
+
+
+--10. number of shipments per months, with no delay
+
+select
+	count(dt.Idshipment) NmrShipmperMonth,
+	dt.Month 
+from
+	(select
+	tt.Idshipment,datename(month,tt.EndTime) Month,
+	datediff(second,RouteTime,TimeTraveled) Extratime
+	from TimeTraveled tt) as dt
+where dt.Extratime=0
+group by dt.Month
+order by NmrShipmperMonth desc
+
+# NmrShipmperMonth	Month
+	69		December
+	59		October
+	56		March
+	51		August
+	45		April
+	43		November
+	41		January
+	40		February
+	36		September
+	29		May
+	28		June
+	14		July
+
+
