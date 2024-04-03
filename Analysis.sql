@@ -200,14 +200,14 @@ order by AvgCost
 	Bucharest	Cluj-Napoca	455
 
 
---7. top 5 routes with exceeding average delivery cost
-	
+--7. top 5 orders with exceeding average delivery cost
+
 select distinct top 5
+	c1.CityName as StartLocation,
+	c2.CityName as EndLocation,
 	o.Idorder,
 	s.TravelCost-ac.AverageCost as ExceedingAvgCost,
-	ac.IdRoute,
-	c1.CityName as StartLocation,
-	c2.CityName as EndLocation
+	ac.IdRoute	
 from AvgCost ac
 	join orders o on o.IdRoute=ac.IdRoute
 	join shipments s on s.IdOrder=o.Idorder
@@ -217,21 +217,16 @@ from AvgCost ac
 where s.TravelCost>ac.AverageCost
 order by ExceedingAvgCost desc
 
+# StartLocation EndLocation Idorder ExceedingAvgCost
+	Madrid		Timișoara	603			50
+	Madrid		Timișoara	357			49
+	Madrid		Timișoara	363			49
+	Madrid		Timișoara	378			49
+	Madrid		Timișoara	5			47
+	
 
-
-select
-s.IdOrder,s.TravelCost,c.Name
-from shipments s
-join orders o
-	on o.Idorder=s.IdOrder
-join customers c
-	on c.IdCustomer=o.IdCustomer
-where c.IdCustomer=4
-
-select
-* from customers -- nefinalizat
-
---ponderea livrarilor cu depasiri de timp in totalul livrarilor
+	
+--8. ponderea livrarilor cu depasiri de timp in totalul livrarilor
 
 select
 	dt.IdRoute,
