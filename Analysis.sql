@@ -319,4 +319,27 @@ order by NmrShipmperMonth desc
 	28		June
 	14		July
 
+create or alter view extratimeView
+as
+select
+	dt.IdRoute,
+	dt.Idorder,
+	dt.Idshipment,
+	CONVERT(TIME, DATEADD(SECOND, Extratime,0)) Extratime
+		
+from
+	(select
+	IdRoute,Idorder,Idshipment,
+	datediff(second,RouteTime,TimeTraveled) Extratime
+	from TimeTraveled) as dt
 
+
+select 
+	count(*) nmbshipments,
+	sum(case when Extratime<>'00:00:00.0000000' then 1 else 0 end) NmbDelays,
+	(sum(case when Extratime<>'00:00:00.0000000' then 1 else 0 end)*1.0/count(*))*100 Proportion
+from extratimeView
+
+# nmbshipments NmbDelays Proportion
+
+651		140	 21.505376344000
