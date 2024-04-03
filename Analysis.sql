@@ -26,7 +26,7 @@ order by t.NmbofShipments desc
 # startlocation, endlocation, NmbofShipments  
 Brasov		Bucharest	66
 Bucharest	Cluj-Napoca	59
-Belgrade	Madrid	42
+Belgrade	Madrid		42
 Madrid		Timisoara	39
 Belgrade	Bucharest	38
 
