@@ -8,5 +8,5 @@ The results of the SQL queries can be found in the [analysis](https://github.com
 
 # Schema Diagram
 
-<img width="412" alt="schema diagram" src="https://github.com/AncaOanaM/Shipment-Database/assets/150436408/86a58389-1645-4eb5-9b81-0115de8cd4ff" alt="Database Diagram" width="800">
+<img width="800" alt="Schema diagram" src="https://github.com/AncaOanaM/Shipment-Database/assets/150436408/86a58389-1645-4eb5-9b81-0115de8cd4ff">
 
